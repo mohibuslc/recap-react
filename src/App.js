@@ -1,10 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
-import React, {useState} from 'react';
+import React, {useState , useEffect} from 'react';
 
 function App() {
+// using useEffect  and use useState;
 
-  const Info = ['Karim ', 'Rahim', 'Tina'];
+const [naykos , setNaykos]=useState([]);
+
+useEffect(() =>{
+fetch ('https://jsonplaceholder.typicode.com/users')
+.then(res => res.json())
+.then (data => setNaykos(data))
+
+
+}, [])
+
   const products = [
     
     {name:'Chiken', price: '$200'},
@@ -13,47 +23,52 @@ function App() {
     
 
 ]
+const NaykosStyle={
+  border:'2px solid red',
+  margin:'10px',
+  padding: '5px',
+  width:'900px',
+  height:'155px'
+}
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        
+    
+        <header>
         <MovieCounter></MovieCounter>
+          <div >
+          <h1>Dynamic User: {naykos.length}</h1>
+          {
+
+            naykos.map(nk =><div style={NaykosStyle}> name: {nk.name} 
+                          
+            <br></br>
+                         
+              Email: {nk.email}
+              
+              
+              </div>)
+          }
+          </div>
+        
         <Product prd={products[0]}></Product>
 
         <Product prd={products[1]}></Product>
         <Product prd={products[2]}></Product>
-        
-        <ul>
-       {
-
-        
-       Info.map(ActInfo => <li>{ActInfo}</li>)
-
-         
-       }
-       </ul>
+       
+      
       </header>
     </div>
   );
 }
 
-function Nayok (props){
 
-  return(
-
-    <div>
-
-      <h1> Nayoks: {props.ActInfo}</h1>
-    </div>
-  )
-}
 function Product(props){
   const ProductStyle={
     border:'2px solid red',
     margin:'10px',
     padding: '5px',
-    width:'900px',
+    width:'400px',
     height:'155px'
 
   }
@@ -65,8 +80,10 @@ const {name ,price} =props.prd
       <h2>product name : {name}</h2>
       <h3>PRODUCT_Price: {price}</h3>
     </div>
-  )
+  );
 }
+
+
 // movie counter : 
 
 function MovieCounter(){
@@ -88,5 +105,6 @@ return(
 )
 
 }
+
 
 export default App;
